@@ -20,7 +20,9 @@ class MessageReceiver(Thread):
         self.client = client
         self.connection = connection
 
+
     def run(self):
+        print("mr running")
         # TODO: Make MessageReceiver receive and handle payloads
         while True:
             received_string = self.connection.recv(4096)
