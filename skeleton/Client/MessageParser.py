@@ -22,6 +22,6 @@ class MessageParser():
         print(payload)
 
     def parse_info(self, payload):
-        print(payload)
+        print(payload['content'])
 
     # Include more methods for handling the different responses...
