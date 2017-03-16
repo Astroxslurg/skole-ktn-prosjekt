@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import socketserver
+import json
+from RequestHandler import *
 
 """
 Variables and functions that must be used by all the ClientHandler objects
 must be written here (e.g. a dictionary for connected clients)
-"""
-
+"""   
+                
 class ClientHandler(socketserver.BaseRequestHandler):
     """
     This is the ClientHandler class. Everytime a new client connects to the
@@ -25,8 +27,20 @@ class ClientHandler(socketserver.BaseRequestHandler):
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
-            
+            print(received_string)
             # TODO: Add handling of received payload from client
+    
+            # Convert payload from JSON to object
+            payloadToJson = json.loads(received_string)
+
+            # determine what request is being made
+            request_handler = RequestHandler(payloadToJson)
+    
+            # execute and generate response (JSON formatted)
+            jsonResponse = request_handler.callHandler()
+            
+            # send response
+
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
