@@ -26,6 +26,8 @@ class Client:
 
         self.userCommands = {
             'help': self.help,
+            'login': self.login,
+            'logout': self.logout,
         }
 
         self.messageParser = MessageParser()
@@ -67,6 +69,23 @@ class Client:
             'request': 'help',
         })
         print(message)
+        self.connection.send(bytes(message, "ascii"))
+
+    def login(self):
+        print("Please enter username")
+        username = input()
+        message = json.dumps({
+            'request': 'login',
+            'content': username,
+        })
+        print("thank you, " + username + "! We will try to log you in...")
+        self.connection.send(bytes(message, "ascii"))
+
+    def logout(self):
+        print("Loggin out...")
+        message = json.dumps({
+            'request': 'logout',
+        })
         self.connection.send(bytes(message, "ascii"))
 
 
