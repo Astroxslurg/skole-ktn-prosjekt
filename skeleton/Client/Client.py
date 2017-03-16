@@ -54,12 +54,12 @@ class Client:
                   " There is no command called " + payload)
 
     def help(self):
-        print("This is the help menu")
+        print("Asking for help . . . ")
         message = json.dumps({
             'request': 'help',
         })
         print(message)
-        self.connection.send(message)
+        self.connection.send(bytes(message, "ascii"))
 
 
 if __name__ == '__main__':
