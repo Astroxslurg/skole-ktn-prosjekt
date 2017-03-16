@@ -31,7 +31,7 @@ class Client:
 
     def run(self):
         # Initiate the connection to the server
-        # self.connection.connect((self.host, self.server_port))
+        self.connection.connect((self.host, self.server_port))
         print("running....")
 
     def disconnect(self):
@@ -58,6 +58,7 @@ class Client:
         message = json.dumps({
             'request': 'help',
         })
+        print(message)
         self.connection.send(message)
 
 
