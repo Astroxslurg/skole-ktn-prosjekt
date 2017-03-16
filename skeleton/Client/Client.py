@@ -32,13 +32,13 @@ class Client:
 
     def run(self):
         # Initiate the connection to the server
-        self.connection.connect((self.host, self.server_port))        
+        self.connection.connect((self.host, self.server_port))
 
-        print("running....")
-        cr = CommandReceiver(self)
-        cr.run()
-        mr = MessageReceiver(self, self.connection)
-        mr.run()
+        messageReceiver = MessageReceiver(self, self.connection)
+        messageReceiver.start()
+
+        while True:
+            self.parseCommands(input())
 
     def disconnect(self):
         # TODO: Handle disconnection
