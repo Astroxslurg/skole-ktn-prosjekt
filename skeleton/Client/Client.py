@@ -3,6 +3,7 @@ import socket
 import json
 from MessageReceiver import MessageReceiver
 from MessageParser import MessageParser
+from CommandReceiver import CommandReceiver
 
 
 class Client:
@@ -70,5 +71,5 @@ if __name__ == '__main__':
     No alterations are necessary
     """
     client = Client('localhost', 9998)
-    while True:
-        client.parseCommands(input())
+    cr = CommandReceiver(client)
+    cr.run()
