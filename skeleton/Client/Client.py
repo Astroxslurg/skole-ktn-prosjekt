@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import socket
+import json
 from MessageReceiver import MessageReceiver
 from MessageParser import MessageParser
 
@@ -54,6 +55,10 @@ class Client:
 
     def help(self):
         print("This is the help menu")
+        message = json.dumps({
+            'request': 'help',
+        })
+        self.connection.send(message)
 
 
 if __name__ == '__main__':
