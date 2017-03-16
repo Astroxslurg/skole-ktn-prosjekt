@@ -19,6 +19,7 @@ class MessageReceiver(Thread):
 
         self.client = client
         self.connection = connection
+        print("mr init")
 
 
     def run(self):
