@@ -1,7 +1,10 @@
 from ResponseGenerator import *
 
 class Features():
-
+	def __init__(self, state):
+		self.state = state	
+		print(self.state)
+	
 	def login(self, request):
 			print("hei")
 			
@@ -10,8 +13,8 @@ class Features():
 		
 	def help(self, request):
 		data = {
-			'response': "OK",
-			'content': "Yo!",
+			'response': "info",
+			'content': "Help is here!",
 			'sender': "server"
 		}
 		json = ResponseGenerator(data).jsonPayload()

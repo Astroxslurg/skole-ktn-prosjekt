@@ -2,17 +2,17 @@ from Features import *
 
 class RequestHandler():
 
-	def __init__(self, data):
+	def __init__(self, data, state):
 		print("RequestHandler represent'! ")
 		
 		self.possible_requests = {
-			'login': Features().login,
-			'logout': Features().logout,
-			'msg': Features().msg,
-			'help': Features().help
+			'login': Features(state).login,
+			'logout': Features(state).logout,
+			'msg': Features(state).msg,
+			'help': Features(state).help
 			}
 		self.data = data
-		self.noSuchMethod = Features.noSuchMethod
+		self.noSuchMethod = Features(state).noSuchMethod
 		
 		
 	def	callHandler(self):
