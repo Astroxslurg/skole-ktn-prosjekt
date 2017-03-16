@@ -31,16 +31,10 @@ class ClientHandler(socketserver.BaseRequestHandler):
             # TODO: Add handling of received payload from client
     
             # Convert payload from JSON to object
-            payloadToJson = json.loads(received_string)
-
-            # determine what request is being made
-            request_handler = RequestHandler(payloadToJson)
-    
-            # execute and generate response (JSON formatted)
-            jsonResponse = request_handler.callHandler()
+            payloadToData = json.loads(received_string)
             
-            # send response
-
+            print(payloadToData["request"])
+            
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
