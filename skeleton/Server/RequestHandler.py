@@ -11,12 +11,14 @@ class RequestHandler():
 			'help': self.help
 			}
 		self.data = data
+		print(data)
 		
 		
 	def	callHandler(self):
-		if	data.request in self.possible_requests:
+		request = self.data["request"]
+		if request in self.possible_requests:
 			
-		 return self.possible_requests[data.request](data)
+		 return self.possible_requests[request](self.data)
 
 		else:
 			
@@ -31,23 +33,24 @@ class RequestHandler():
 		}
 		return ResponseGenerator(data)
 		
-	def login(self):
+	def login(self, request):
 		print("hei")
 		
-	def msg(self):
+	def msg(self, request):
 		print("hei")
 		
-	def help(self):
+	def help(self, request):
 		data = {
-			response: "OK",
-			content: "Yo!",
-			sender: "server"
+			'response': "OK",
+			'content': "Yo!",
+			'sender': "server"
 		}
 		json = ResponseGenerator(data).jsonPayload()
 		print(json)
+		return json
 		
 		
-	def logout(self, data):
+	def logout(self, request):
 		print("hei")        
 
 
