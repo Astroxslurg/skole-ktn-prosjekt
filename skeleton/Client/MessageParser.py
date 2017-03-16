@@ -14,8 +14,8 @@ class MessageParser():
         if payload['response'] in self.possible_responses:
             return self.possible_responses[payload['response']](payload)
         else:
-            print("Error: Invalid response type." +
-                  "There is no parser for response type called" +
+            print("Error: Invalid response type. " +
+                  "There is no response type called " +
                   payload['response'])
 
     def parse_error(self, payload):

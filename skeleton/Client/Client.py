@@ -28,6 +28,8 @@ class Client:
             'help': self.help,
         }
 
+        self.messageParser = MessageParser()
+
         self.run()
 
     def run(self):
@@ -45,8 +47,8 @@ class Client:
         pass
 
     def receive_message(self, message):
-        # TODO: Handle incoming message
-        pass
+        print(message)
+        self.messageParser.parse(message)
 
     def send_payload(self, data):
         # TODO: Handle sending of a payload
