@@ -27,13 +27,19 @@ class ClientHandler(socketserver.BaseRequestHandler):
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
-            print(received_string)
             # TODO: Add handling of received payload from client
     
             # Convert payload from JSON to object
             payloadToData = json.loads(received_string)
             
-            print(payloadToData["request"])
+            # determine what request is being made
+            request_handler = RequestHandler(payloadToData)
+        
+            # execute and generate response (JSON formatted)
+            jsonResponse = request_handler.callHandler()
+            
+            # send response
+            self.connection.send(bytes(jsonResponse, "ascii"))
             
 
 

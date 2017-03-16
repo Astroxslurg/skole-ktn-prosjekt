@@ -1,23 +1,25 @@
+import json
+
 class ResponseGenerator():
 	def __init__(self, data):
 		print("ResponseGenerator in town!")
-		self.sender = data.sender
-		self.response = data.response
-		self.content = data.content
-		self.timestamp = self.timestamp
+		self.sender = data["sender"]
+		self.response = data["response"]
+		self.content = data["content"]
+		self.timestamp = self.getTimestamp
 		
-	def timestamp():
+	def getTimestamp(self):
 		return "Partytime!"
 	
 	def payload(self):
 		return {
-			sender: self.sender,
-			response: self.response,
-			content: self.content,
-			timestamp: self.timestamp
+			'sender': self.sender,
+			'response': self.response,
+			'content': self.content,
+			'timestamp': self.timestamp()
 		};
 		
-	def jsonPayload():
+	def jsonPayload(self):
 		return json.dumps(self.payload())
 		
 	 
