@@ -6,7 +6,12 @@ from RequestHandler import *
 """
 Variables and functions that must be used by all the ClientHandler objects
 must be written here (e.g. a dictionary for connected clients)
-"""   
+"""
+
+state = {
+    'users': [],
+    'history': [],
+}
                 
 class ClientHandler(socketserver.BaseRequestHandler):
     """
@@ -33,7 +38,7 @@ class ClientHandler(socketserver.BaseRequestHandler):
             payloadToData = json.loads(received_string)
             
             # determine what request is being made
-            request_handler = RequestHandler(payloadToData)
+            request_handler = RequestHandler(payloadToData, state)
         
             # execute and generate response (JSON formatted)
             jsonResponse = request_handler.callHandler()
