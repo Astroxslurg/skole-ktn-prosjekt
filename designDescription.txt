@@ -1,0 +1,3 @@
+Our design is a simple design based on one codebase on the client and one on the server
+
+The server has a ThreadedTCPServer that makes a new instance of ClientHandler for every client that connects
