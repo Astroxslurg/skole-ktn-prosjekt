@@ -35,11 +35,10 @@ class Client:
             'help': self.help,
             'login': self.login,
             'logout': self.logout,
+            'names': self.names,
         }
 
         self.messageParser = MessageParser()
-
-        self.loggedIn = True
 
         self.run()
 
@@ -53,20 +52,14 @@ class Client:
             return None
 
         print("Welcome to the very best chat client the world has ever seen!")
-        print("You type commands by prepending a '$'")
-        print("Type '$help' or '$h' for help, and '$login' to login")
-        print("You should start by logging in")
+        self.printClientHelpMessage()
 
         while True:
             inp = input()
             if inp[0] == '$':
                 self.parseCommands(inp[1:].lower())
             else:
-                if self.loggedIn:
-                    self.sendMessage(inp)
-                else:
-                    print("What did i tell you?")
-                    print("Log in!")
+                self.sendMessage(inp)
 
     def disconnect(self):
         # TODO: Handle disconnection
@@ -92,12 +85,21 @@ class Client:
         })
         self.send_payload(message)
 
+    def names(self):
+        message = json.dumps({
+            'request': 'names',
+        })
+        self.send_payload(message)
+
+    def printClientHelpMessage(self):
+        print("You type commands by prepending a '$'")
+        print("Type '$help' or '$h' for help, and '$login' to login")
+        print("You should start by logging in")
+        print("A line not starting with a $-symbol will be sent as a message")
+
     def help(self):
         print("This is the help menu.")
-        print("You type commands by prepending a '$'")
-        if self.loggedIn:
-            print("Type '$help' or '$h' for help, and '$login' to login")
-            print("You should start by logging in")
+        self.printClientHelpMessage()
         print("retrieving available commands from server:")
 
         message = json.dumps({
@@ -105,7 +107,8 @@ class Client:
         })
         self.send_payload(message)
 
-    def login(self, simUsername = None):
+    # simUsername is only used during simulations
+    def login(self, simUsername=None):
 
         if simUsername:
             username = simUsername
