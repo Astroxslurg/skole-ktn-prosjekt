@@ -5,7 +5,8 @@ class MessageParser():
         self.possible_responses = {
             'error': self.parse_error,
             'info': self.parse_info,
-	    # More key:values pairs are needed
+            'message': self.parse_message,
+            # More key:values pairs are needed
         }
 
     def parse(self, payload):
@@ -17,6 +18,9 @@ class MessageParser():
             print("Error: Invalid response type. " +
                   "There is no response type called " +
                   payload['response'])
+
+    def parse_message(self, payload):
+        print(payload['sender'] + ': ' + payload["content"])
 
     def parse_error(self, payload):
         print(payload)

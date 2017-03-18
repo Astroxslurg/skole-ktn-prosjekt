@@ -39,7 +39,7 @@ class Client:
 
         self.messageParser = MessageParser()
 
-        self.loggedIn = False
+        self.loggedIn = True
 
         self.run()
 
@@ -71,7 +71,6 @@ class Client:
         pass
 
     def receive_message(self, message):
-        print(message)
         self.messageParser.parse(message)
 
     def send_payload(self, data):
@@ -111,7 +110,7 @@ class Client:
         else:
             print("Please enter username")
             username = input()
-            
+
         message = json.dumps({
             'request': 'login',
             'content': username,
