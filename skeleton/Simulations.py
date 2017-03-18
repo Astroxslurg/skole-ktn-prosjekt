@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 from threading import Timer
 sys.path.insert(0, './Client')
 sys.path.insert(0, './Server')
@@ -19,8 +20,12 @@ def startClient():
 	# Start the Client
 	joe = Client('localhost', 9998, True)
 	#jimbo = Client('localhost', 9998, True)
+	sleep(0.3)
 	joe.login("Joe")
 	# Sim login
+	joe.sendMessage("Hello")
+	sleep(0.3)
+	joe.sendMessage("Hello")
 	#client.login()
 
 

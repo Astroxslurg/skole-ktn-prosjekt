@@ -80,12 +80,15 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.port = self.client_address[1]
         self.connection = self.request
 
-        print(self.connection)
         state.addConnection(self.connection)
 
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
+
+            if len(received_string) == 0:
+                continue
+
             # TODO: Add handling of received payload from client
 
             # Convert payload from JSON to object

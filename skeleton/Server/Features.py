@@ -28,7 +28,6 @@ def loginError():
 
 def isUsernameTaken(username, state):
     usernames = state.getUsernames()
-    print(usernames)
     return False
 
 
@@ -99,8 +98,8 @@ class Features():
         }
 
         return ResponseGenerator(data).jsonPayload()
-        
-    def noSuchMethod():
+
+    def noSuchMethod(self):
 
         data = {
             'sender': "server",
