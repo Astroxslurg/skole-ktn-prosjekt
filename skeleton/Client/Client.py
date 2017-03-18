@@ -10,14 +10,20 @@ class Client:
     """
     This is the chat client class
     """
-
-    def __init__(self, host, server_port):
+    
+    """
+    The isSimulation flag is set to true when running simulations, 
+    so that the "while True" loop doesn't block execution of simulation script.
+    """
+    
+    def __init__(self, host, server_port, isSimulation = False):
         """
         This method is run when creating a new Client object
         """
 
         self.host = host
         self.server_port = server_port
+        self.isSimulation = isSimulation
 
         # Set up the socket connection to the server
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,7 +43,7 @@ class Client:
         messageReceiver = MessageReceiver(self, self.connection)
         messageReceiver.start()
 
-        while True:
+        while True and not self.isSimulation:
             self.parseCommands(input())
 
     def disconnect(self):
@@ -60,11 +66,10 @@ class Client:
                   " There is no command called " + payload)
 
     def help(self):
-        print("Asking for help . . . ")
+        
         message = json.dumps({
             'request': 'help',
         })
-        print(message)
         self.connection.send(bytes(message, "ascii"))
 
 
