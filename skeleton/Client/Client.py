@@ -10,12 +10,12 @@ class Client:
     """
     This is the chat client class
     """
-    
+
     """
-    The isSimulation flag is set to true when running simulations, 
+    The isSimulation flag is set to true when running simulations,
     so that the "while True" loop doesn't block execution of simulation script.
     """
-    
+
     def __init__(self, host, server_port, isSimulation = False):
         """
         This method is run when creating a new Client object
@@ -31,12 +31,15 @@ class Client:
         # TODO: Finish init process with necessary code
 
         self.userCommands = {
+            'h': self.help,
             'help': self.help,
             'login': self.login,
             'logout': self.logout,
         }
 
         self.messageParser = MessageParser()
+
+        self.loggedIn = False
 
         self.run()
 
@@ -47,8 +50,21 @@ class Client:
         messageReceiver = MessageReceiver(self, self.connection)
         messageReceiver.start()
 
+        print("Welcome to the very best chat client the world has ever seen!")
+        print("You type commands by prepending a '$'")
+        print("Type '$help' or '$h' for help, and '$login' to login")
+        print("You should start by logging in")
+
         while True and not self.isSimulation:
-            self.parseCommands(input())
+            inp = input()
+            if inp[0] == '$':
+                self.parseCommands(inp[1:].lower())
+            else:
+                if self.loggedIn:
+                    self.sendMessage(inp)
+                else:
+                    print("What did i tell you?")
+                    print("Log in!")
 
     def disconnect(self):
         # TODO: Handle disconnection
@@ -59,8 +75,7 @@ class Client:
         self.messageParser.parse(message)
 
     def send_payload(self, data):
-        # TODO: Handle sending of a payload
-        pass
+        self.connection.send(bytes(data, "ascii"))
 
     def parseCommands(self, payload):
         if payload in self.userCommands:
@@ -69,12 +84,25 @@ class Client:
             print("Error: Invalid command." +
                   " There is no command called " + payload)
 
+    def sendMessage(self, inp):
+        message = json.dumps({
+            'request': 'msg',
+            'content': inp,
+        })
+        self.send_payload(message)
+
     def help(self):
-        
+        print("This is the help menu.")
+        print("You type commands by prepending a '$'")
+        if self.loggedIn:
+            print("Type '$help' or '$h' for help, and '$login' to login")
+            print("You should start by logging in")
+        print("retrieving available commands from server:")
+
         message = json.dumps({
             'request': 'help',
         })
-        self.connection.send(bytes(message, "ascii"))
+        self.send_payload(message)
 
     def login(self, simUsername = None):
 
@@ -89,14 +117,14 @@ class Client:
             'content': username,
         })
         print("thank you, " + username + "! We will try to log you in...")
-        self.connection.send(bytes(message, "ascii"))
+        self.send_payload(message)
 
     def logout(self):
         print("Loggin out...")
         message = json.dumps({
             'request': 'logout',
         })
-        self.connection.send(bytes(message, "ascii"))
+        self.send_payload(message)
 
 
 if __name__ == '__main__':
