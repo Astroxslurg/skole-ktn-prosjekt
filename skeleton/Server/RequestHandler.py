@@ -3,16 +3,16 @@ from Features import Features
 
 class RequestHandler():
 
-    def __init__(self, data, state):
+    def __init__(self, data, state, currentConnection):
 
         self.possible_requests = {
-            'login': Features(state).login,
-            'logout': Features(state).logout,
-            'msg': Features(state).msg,
-            'help': Features(state).help
+            'login': Features(state, currentConnection).login,
+            'logout': Features(state, currentConnection).logout,
+            'msg': Features(state, currentConnection).msg,
+            'help': Features(state, currentConnection).help
         }
         self.data = data
-        self.noSuchMethod = Features(state).noSuchMethod
+        self.noSuchMethod = Features(state, currentConnection).noSuchMethod
 
     def callHandler(self):
         request = self.data["request"]

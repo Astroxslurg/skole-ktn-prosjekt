@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import socketserver
 import json
-from RequestHandler import *
+from RequestHandler import RequestHandler
 
 """
 Variables and functions that must be used by all the ClientHandler objects
@@ -44,7 +44,9 @@ class ClientHandler(socketserver.BaseRequestHandler):
             payloadToData = json.loads(received_string)
 
             # determine what request is being made
-            request_handler = RequestHandler(payloadToData, state)
+            request_handler = RequestHandler(payloadToData,
+                                             state,
+                                             self.connection)
 
             # execute and generate response (JSON formatted)
             jsonResponse = request_handler.callHandler()

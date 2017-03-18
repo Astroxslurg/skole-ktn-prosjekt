@@ -1,4 +1,4 @@
-from ResponseGenerator import *
+from ResponseGenerator import ResponseGenerator
 
 """
 General Helpers
@@ -40,8 +40,9 @@ def loginSuccesful():
 
 
 class Features():
-    def __init__(self, state):
+    def __init__(self, state, currentConnection):
         self.state = state
+        self.currentConnection = currentConnection
 
     def login(self, request):
         isRequestValid(request, "login")
@@ -55,16 +56,21 @@ class Features():
         return loginSuccessful()
 
     def msg(self, request):
+        isRequestValid(request, 'msg')
+        data = {
+            'sender': '<USER>',
+            'response': 'message',
+            'content': request["content"],
+        }
+        json = ResponseGenerator(data).jsonPayload()
 
-        isMsg = request["request"] == "msg"
-        if isMsg is True:
-            raise ValueError("request was not msg")
+        return json
 
     def help(self, request):
         data = {
+            'sender': "server",
             'response': "info",
             'content': "Help is here!",
-            'sender': "server"
         }
         json = ResponseGenerator(data).jsonPayload()
 
