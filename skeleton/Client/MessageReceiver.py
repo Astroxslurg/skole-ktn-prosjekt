@@ -26,4 +26,5 @@ class MessageReceiver(Thread):
         # TODO: Make MessageReceiver receive and handle payloads
         while True:
             received_string = self.connection.recv(4096)
+            self.client.receive_message(received_string)
             

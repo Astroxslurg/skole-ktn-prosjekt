@@ -32,7 +32,11 @@ class Client:
 
         self.userCommands = {
             'help': self.help,
+            'login': self.login,
+            'logout': self.logout,
         }
+
+        self.messageParser = MessageParser()
 
         self.run()
 
@@ -51,8 +55,8 @@ class Client:
         pass
 
     def receive_message(self, message):
-        # TODO: Handle incoming message
-        pass
+        print(message)
+        self.messageParser.parse(message)
 
     def send_payload(self, data):
         # TODO: Handle sending of a payload
@@ -69,6 +73,23 @@ class Client:
         
         message = json.dumps({
             'request': 'help',
+        })
+        self.connection.send(bytes(message, "ascii"))
+
+    def login(self):
+        print("Please enter username")
+        username = input()
+        message = json.dumps({
+            'request': 'login',
+            'content': username,
+        })
+        print("thank you, " + username + "! We will try to log you in...")
+        self.connection.send(bytes(message, "ascii"))
+
+    def logout(self):
+        print("Loggin out...")
+        message = json.dumps({
+            'request': 'logout',
         })
         self.connection.send(bytes(message, "ascii"))
 
