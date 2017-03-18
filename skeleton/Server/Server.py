@@ -9,9 +9,13 @@ must be written here (e.g. a dictionary for connected clients)
 """
 
 state = {
-    'users': [],
+    'usernames': [],
     'history': [],
+    'connections': [],
 }
+
+def trackClientConnection(state, clientConnection):
+    state['connections'].append(clientConnection)
                 
 class ClientHandler(socketserver.BaseRequestHandler):
     """
@@ -28,7 +32,9 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.ip = self.client_address[0]
         self.port = self.client_address[1]
         self.connection = self.request
-
+        
+        trackClientConnection(state, self.connection)
+        
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)

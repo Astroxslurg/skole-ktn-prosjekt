@@ -76,9 +76,14 @@ class Client:
         })
         self.connection.send(bytes(message, "ascii"))
 
-    def login(self):
-        print("Please enter username")
-        username = input()
+    def login(self, simUsername = None):
+
+        if simUsername:
+            username = simUsername
+        else:
+            print("Please enter username")
+            username = input()
+            
         message = json.dumps({
             'request': 'login',
             'content': username,
