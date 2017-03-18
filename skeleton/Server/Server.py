@@ -8,14 +8,36 @@ Variables and functions that must be used by all the ClientHandler objects
 must be written here (e.g. a dictionary for connected clients)
 """
 
-state = {
-    'usernames': [],
-    'history': [],
-    'connections': [],
-}
+class State:
+    def __init__(self):
+        self.history = []
+        self.connections = {}
+    
+    def addConnection(self, clientConnection):
+        # use the port as an identifier
+        connectionIdentifier = clientConnection.getpeername()[1]
+        self.connections[connectionIdentifier] = { 
+            'connection': clientConnection , 
+            'username': "hello"
+            }
+        
+    def getConnections(self):
+        return [value["connection"] for key, value in self.connections.items()]
+        
+    def getUsernames(self):
+        return [value["username"] for key, value in self.connections.items()]
+    
+    def isUserLoggedIn(self, connection):
+        pass
+        
+    def addMsg(self, payload):
+        pass
+        
+    def getHistory(self):
+        return self.history
+        
 
-def trackClientConnection(state, clientConnection):
-    state['connections'].append(clientConnection)
+state = State()
                 
 class ClientHandler(socketserver.BaseRequestHandler):
     """
@@ -33,8 +55,8 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.port = self.client_address[1]
         self.connection = self.request
         
-        trackClientConnection(state, self.connection)
-        
+        state.addConnection(self.connection)
+                
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)

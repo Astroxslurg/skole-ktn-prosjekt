@@ -22,9 +22,16 @@ def	loginError():
 	
 	return ResponseGenerator(data).jsonPayload()
 
-def addUsername(state, ):
-	state.connections
-def loginSuccesful():
+def addUsername(username, state):
+	pass
+	
+def isUsernameTaken(username, state):
+	usernames = state.getUsernames()
+	print(usernames)
+	
+	
+	
+def loginSuccessful():
 	data = {
 		'response': "info",
 		'content': "Login successful",
@@ -41,10 +48,10 @@ class Features():
 		isRequestValid(request, "login")
 		username = request["content"]
 		
-		if isUsernameTaken(username):
+		if isUsernameTaken(username, self.state):
 			return loginError()
 			
-		addUsername(username, state)
+		addUsername(username, self.state)
 		
 		return loginSuccessful()
 		

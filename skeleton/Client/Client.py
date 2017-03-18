@@ -49,13 +49,15 @@ class Client:
 
         messageReceiver = MessageReceiver(self, self.connection)
         messageReceiver.start()
+        if self.isSimulation is True:
+            return None
 
         print("Welcome to the very best chat client the world has ever seen!")
         print("You type commands by prepending a '$'")
         print("Type '$help' or '$h' for help, and '$login' to login")
         print("You should start by logging in")
 
-        while True and not self.isSimulation:
+        while True:
             inp = input()
             if inp[0] == '$':
                 self.parseCommands(inp[1:].lower())

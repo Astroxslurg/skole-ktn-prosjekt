@@ -18,8 +18,8 @@ def	startServer():
 def startClient():
 	# Start the Client
 	joe = Client('localhost', 9998, True)
-	jimbo = Client('localhost', 9998, True)
-	#joe.login("Joe")
+	#jimbo = Client('localhost', 9998, True)
+	joe.login("Joe")
 	# Sim login
 	#client.login()
 	

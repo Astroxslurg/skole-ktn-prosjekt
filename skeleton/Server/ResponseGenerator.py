@@ -17,7 +17,7 @@ class ResponseGenerator():
 			'response': self.response,
 			'content': self.content,
 			'timestamp': self.timestamp()
-		};
+		}
 		
 	def jsonPayload(self):
 		return json.dumps(self.payload())
