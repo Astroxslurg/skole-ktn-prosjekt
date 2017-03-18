@@ -43,11 +43,10 @@ class State:
     def addMsg(self, payload):
         self.history.append(payload)
 
+        # execute and generate response (JSON formatted)
+        jsonResponse = ResponseGenerator(payload).jsonPayload()
+
         for connection in self.getConnections():
-
-            # execute and generate response (JSON formatted)
-            jsonResponse = ResponseGenerator(payload).jsonPayload()
-
             # send response
             connection.send(bytes(jsonResponse, "ascii"))
 
