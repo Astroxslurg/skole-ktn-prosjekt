@@ -26,13 +26,10 @@ def loginError():
     return ResponseGenerator(data).jsonPayload()
 
 
-def addUsername(username, state):
-    pass
-
-
 def isUsernameTaken(username, state):
     usernames = state.getUsernames()
     print(usernames)
+    return False
 
 
 def loginSuccessful():
@@ -56,7 +53,7 @@ class Features():
         if isUsernameTaken(username, self.state):
             return loginError()
 
-        addUsername(username, self.state)
+        self.state.addUsername(username, self.currentConnection)
 
         return loginSuccessful()
 
@@ -68,6 +65,8 @@ class Features():
             'content': request["content"],
         }
         self.state.addMsg(data)
+
+        return 'BROADCAST'
 
     def help(self, request):
         data = {
