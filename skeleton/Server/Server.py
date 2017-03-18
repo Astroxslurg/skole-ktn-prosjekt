@@ -22,7 +22,13 @@ class State:
             }
 
     def getConnections(self):
-        return [value["connection"] for key, value in self.connections.items()]
+        connections = []
+        for identifier in self.connections:
+            conn = self.connections[identifier]
+            if not conn["connection"]._closed:
+                if conn["username"]:
+                    connections.append(conn["connection"])
+        return connections
 
     def getCurrentConnectionEntry(self, currentConnection):
         connectionIdentifier = currentConnection.getpeername()[1]
