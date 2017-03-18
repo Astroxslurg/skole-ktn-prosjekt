@@ -16,7 +16,7 @@ state = {
 
 def trackClientConnection(state, clientConnection):
     state['connections'].append(clientConnection)
-                
+
 class ClientHandler(socketserver.BaseRequestHandler):
     """
     This is the ClientHandler class. Everytime a new client connects to the
@@ -32,26 +32,26 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.ip = self.client_address[0]
         self.port = self.client_address[1]
         self.connection = self.request
-        
+
         trackClientConnection(state, self.connection)
-        
+
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
             # TODO: Add handling of received payload from client
-    
+
             # Convert payload from JSON to object
             payloadToData = json.loads(received_string)
-            
+
             # determine what request is being made
             request_handler = RequestHandler(payloadToData, state)
-        
+
             # execute and generate response (JSON formatted)
             jsonResponse = request_handler.callHandler()
-            
+
             # send response
             self.connection.send(bytes(jsonResponse, "ascii"))
-            
+
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -62,6 +62,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     No alterations are necessary
     """
     allow_reuse_address = True
+
 
 if __name__ == "__main__":
     """
