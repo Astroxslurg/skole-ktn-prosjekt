@@ -2,7 +2,7 @@
 import socketserver
 import json
 from RequestHandler import RequestHandler
-
+from ResponseGenerator import ResponseGenerator
 """
 Variables and functions that must be used by all the ClientHandler objects
 must be written here (e.g. a dictionary for connected clients)
@@ -17,11 +17,16 @@ class State:
         # use the port as an identifier
         connectionIdentifier = clientConnection.getpeername()[1]
         self.connections[connectionIdentifier] = {
-            'connection': clientConnection ,
+            'connection': clientConnection,
+            'username': None,
             }
 
     def getConnections(self):
         return [value["connection"] for key, value in self.connections.items()]
+
+    def getCurrentConnectionEntry(self, currentConnection):
+        connectionIdentifier = currentConnection.getpeername()[1]
+        return self.connections[connectionIdentifier]
 
     def getUsernames(self):
         return [value["username"] for key, value in self.connections.items()]
@@ -38,16 +43,20 @@ class State:
     def addMsg(self, payload):
         self.history.append(payload)
 
-        for connection in self.connections:
+        for connection in self.getConnections():
 
             # execute and generate response (JSON formatted)
-            jsonResponse = json.loads(payload)
+            jsonResponse = ResponseGenerator(payload).jsonPayload()
 
             # send response
-            self.connection.send(bytes(jsonResponse, "ascii"))
+            connection.send(bytes(jsonResponse, "ascii"))
 
     def getHistory(self):
         return self.history
+
+    def addUsername(self, username, currentConnection):
+        connectionEntry = self.getCurrentConnectionEntry(currentConnection)
+        connectionEntry["username"] = username
 
 
 state = State()
@@ -68,6 +77,7 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.port = self.client_address[1]
         self.connection = self.request
 
+        print(self.connection)
         state.addConnection(self.connection)
 
         # Loop that listens for messages from the client
@@ -86,9 +96,9 @@ class ClientHandler(socketserver.BaseRequestHandler):
             # execute and generate response (JSON formatted)
             jsonResponse = request_handler.callHandler()
 
-            # send response
-            self.connection.send(bytes(jsonResponse, "ascii"))
-
+            if not jsonResponse == 'BROADCAST':
+                # send response
+                self.connection.send(bytes(jsonResponse, "ascii"))
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
