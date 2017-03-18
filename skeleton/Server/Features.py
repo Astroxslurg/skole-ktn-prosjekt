@@ -63,13 +63,11 @@ class Features():
     def msg(self, request):
         isRequestValid(request, 'msg')
         data = {
-            'sender': '<USER>',
+            'sender': self.state.getCurrentUsername(self.currentConnection),
             'response': 'message',
             'content': request["content"],
         }
-        json = ResponseGenerator(data).jsonPayload()
-
-        return json
+        self.state.addMsg(data)
 
     def help(self, request):
         data = {
