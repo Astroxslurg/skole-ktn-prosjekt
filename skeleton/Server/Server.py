@@ -12,33 +12,42 @@ class State:
     def __init__(self):
         self.history = []
         self.connections = {}
-    
+
     def addConnection(self, clientConnection):
         # use the port as an identifier
         connectionIdentifier = clientConnection.getpeername()[1]
-        self.connections[connectionIdentifier] = { 
-            'connection': clientConnection , 
+        self.connections[connectionIdentifier] = {
+            'connection': clientConnection ,
             'username': "hello"
             }
-        
+
     def getConnections(self):
         return [value["connection"] for key, value in self.connections.items()]
-        
+
     def getUsernames(self):
         return [value["username"] for key, value in self.connections.items()]
-    
+
+    def getCurrentUsername(self, clientConnection):
+        return [
+            value["username"] for key, value in self.connections.items()
+            if key == clientConnection.getpeername()[1]
+            ][0]
+
     def isUserLoggedIn(self, connection):
-        pass
-        
+        return not not self.getCurrentUsername
+
     def addMsg(self, payload):
-        pass
-        
+        self.history.append(payload)
+
+        for connection in self.connections:
+            connection.send(json.dumps(payload))
+
     def getHistory(self):
         return self.history
-        
+
 
 state = State()
-       
+
 class ClientHandler(socketserver.BaseRequestHandler):
     """
     This is the ClientHandler class. Everytime a new client connects to the
