@@ -18,13 +18,17 @@ class State:
         connectionIdentifier = clientConnection.getpeername()[1]
         self.connections[connectionIdentifier] = {
             'connection': clientConnection ,
+            'username': None,
             }
 
     def getConnections(self):
         return [value["connection"] for key, value in self.connections.items()]
 
     def getUsernames(self):
-        return [value["username"] for key, value in self.connections.items()]
+        return [
+            value["username"] for key, value in self.connections.items()
+            if value["username"] is not None
+        ]
 
     def getCurrentUsername(self, clientConnection):
         return [

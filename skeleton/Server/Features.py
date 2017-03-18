@@ -91,6 +91,16 @@ class Features():
     def logout(self, request):
         print("hei")
 
+    def history(self, request):
+        history = self.state.getHistory()
+        data = {
+            'response': 'info',
+            'sender': 'server',
+            'content': history
+        }
+
+        return ResponseGenerator(data).jsonPayload()
+        
     def noSuchMethod():
 
         data = {
