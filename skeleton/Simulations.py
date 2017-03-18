@@ -8,9 +8,9 @@ from Server import ThreadedTCPServer, ClientHandler
 
 # Start the Server
 def	startServer():
-		
+
 	HOST, PORT = 'localhost', 9998
-	
+
 	# Set up and initiate the TCP server
 	server = ThreadedTCPServer((HOST, PORT), ClientHandler)
 	server.serve_forever()
@@ -22,8 +22,8 @@ def startClient():
 	joe.login("Joe")
 	# Sim login
 	#client.login()
-	
-	
+
+
 server = Timer(0.0, startServer)
 
 client = Timer(0.1, startClient)

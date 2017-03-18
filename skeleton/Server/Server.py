@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import socketserver
 import json
-from RequestHandler import *
+from RequestHandler import RequestHandler
 
 """
 Variables and functions that must be used by all the ClientHandler objects
@@ -38,7 +38,7 @@ class State:
         
 
 state = State()
-                
+       
 class ClientHandler(socketserver.BaseRequestHandler):
     """
     This is the ClientHandler class. Everytime a new client connects to the
@@ -54,26 +54,28 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.ip = self.client_address[0]
         self.port = self.client_address[1]
         self.connection = self.request
-        
+
         state.addConnection(self.connection)
-                
+        
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
             # TODO: Add handling of received payload from client
-    
+
             # Convert payload from JSON to object
             payloadToData = json.loads(received_string)
-            
+
             # determine what request is being made
-            request_handler = RequestHandler(payloadToData, state)
-        
+            request_handler = RequestHandler(payloadToData,
+                                             state,
+                                             self.connection)
+
             # execute and generate response (JSON formatted)
             jsonResponse = request_handler.callHandler()
-            
+
             # send response
             self.connection.send(bytes(jsonResponse, "ascii"))
-            
+
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -84,6 +86,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     No alterations are necessary
     """
     allow_reuse_address = True
+
 
 if __name__ == "__main__":
     """
