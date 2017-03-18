@@ -3,7 +3,6 @@ from Features import *
 class RequestHandler():
 
 	def __init__(self, data, state):
-		print("RequestHandler represent'! ")
 		
 		self.possible_requests = {
 			'login': Features(state).login,

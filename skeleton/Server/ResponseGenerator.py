@@ -2,7 +2,7 @@ import json
 
 class ResponseGenerator():
 	def __init__(self, data):
-		print("ResponseGenerator in town!")
+		
 		self.sender = data["sender"]
 		self.response = data["response"]
 		self.content = data["content"]

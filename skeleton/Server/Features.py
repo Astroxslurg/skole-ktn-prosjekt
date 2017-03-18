@@ -3,7 +3,6 @@ from ResponseGenerator import *
 class Features():
 	def __init__(self, state):
 		self.state = state	
-		print(self.state)
 	
 	def login(self, request):
 			print("hei")
@@ -18,7 +17,7 @@ class Features():
 			'sender': "server"
 		}
 		json = ResponseGenerator(data).jsonPayload()
-		print(json)
+		
 		return json
 		
 		
