@@ -18,7 +18,6 @@ class State:
         connectionIdentifier = clientConnection.getpeername()[1]
         self.connections[connectionIdentifier] = {
             'connection': clientConnection ,
-            'username': "hello"
             }
 
     def getConnections(self):
@@ -40,7 +39,12 @@ class State:
         self.history.append(payload)
 
         for connection in self.connections:
-            connection.send(json.dumps(payload))
+
+            # execute and generate response (JSON formatted)
+            jsonResponse = json.loads(payload)
+
+            # send response
+            self.connection.send(bytes(jsonResponse, "ascii"))
 
     def getHistory(self):
         return self.history
@@ -65,7 +69,7 @@ class ClientHandler(socketserver.BaseRequestHandler):
         self.connection = self.request
 
         state.addConnection(self.connection)
-        
+
         # Loop that listens for messages from the client
         while True:
             received_string = self.connection.recv(4096)
