@@ -35,7 +35,10 @@ class State:
         return self.connections[connectionIdentifier]
 
     def getUsernames(self):
-        return [value["username"] for key, value in self.connections.items()]
+        return [
+            value["username"] for key, value in self.connections.items()
+            if value["username"] is not None
+        ]
 
     def getCurrentUsername(self, clientConnection):
         return [
