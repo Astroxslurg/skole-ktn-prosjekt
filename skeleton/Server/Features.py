@@ -4,7 +4,6 @@ from ResponseGenerator import ResponseGenerator
 General Helpers
 """
 
-
 def isRequestValid(request, expectedType):
     requestIsAsExpect = request["request"] == expectedType
     if requestIsAsExpect is False:
@@ -14,7 +13,6 @@ def isRequestValid(request, expectedType):
 """
 Login helpers
 """
-
 
 def loginError():
     data = {
@@ -27,8 +25,7 @@ def loginError():
 
 
 def isUsernameTaken(username, state):
-    usernames = state.getUsernames()
-    return False
+    return username in state.getUsernames()
 
 
 def loginSuccessful():
@@ -80,14 +77,20 @@ class Features():
     def names(self, request):
         data = {
             'response': 'info',
-            'content': self.state['usernames'],
+            'content': self.state.getUsernames(),
             'sender': 'server'
         }
         json = ResponseGenerator(data).jsonPayload()
         return json
 
     def logout(self, request):
-        print("hei")
+        self.state.removeConnection(self.currentConnection)
+        data = {
+            'response': 'info',
+            'content': 'Logout successful',
+            'sender': 'server'
+        }
+        return ResponseGenerator(data).jsonPayload()
 
     def history(self, request):
         history = self.state.getHistory()

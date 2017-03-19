@@ -21,6 +21,11 @@ class State:
             'username': None,
             }
 
+    def removeConnection(self, clientConnection):
+        # use the port as an identifier
+        connectionIdentifier = clientConnection.getpeername()[1]
+        del self.connections[connectionIdentifier]
+
     def getConnections(self):
         return [value["connection"] for key, value in self.connections.items()]
 

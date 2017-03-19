@@ -19,13 +19,20 @@ def	startServer():
 def startClient():
 	# Start the Client
 	joe = Client('localhost', 9998, True)
-	#jimbo = Client('localhost', 9998, True)
 	sleep(0.3)
+
+	#jimbo = Client('localhost', 9998, True)
 	joe.login("Joe")
+	sleep(0.3)
+
 	# Sim login
 	joe.sendMessage("Hello")
 	sleep(0.3)
-	joe.sendMessage("Hello")
+
+	joe.names()
+	sleep(0.3)
+	
+	joe.logout()
 	#client.login()
 
 
