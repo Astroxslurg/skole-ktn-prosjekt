@@ -27,7 +27,13 @@ class State:
         del self.connections[connectionIdentifier]
 
     def getConnections(self):
-        return [value["connection"] for key, value in self.connections.items()]
+        connections = []
+        for identifier in self.connections:
+            conn = self.connections[identifier]
+            if not conn["connection"]._closed:
+                if conn["username"]:
+                    connections.append(conn["connection"])
+        return connections
 
     def getCurrentConnectionEntry(self, currentConnection):
         connectionIdentifier = currentConnection.getpeername()[1]
@@ -51,11 +57,10 @@ class State:
     def addMsg(self, payload):
         self.history.append(payload)
 
+        # execute and generate response (JSON formatted)
+        jsonResponse = ResponseGenerator(payload).jsonPayload()
+
         for connection in self.getConnections():
-
-            # execute and generate response (JSON formatted)
-            jsonResponse = ResponseGenerator(payload).jsonPayload()
-
             # send response
             connection.send(bytes(jsonResponse, "ascii"))
 
