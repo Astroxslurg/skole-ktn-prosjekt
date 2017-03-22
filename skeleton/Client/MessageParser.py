@@ -23,7 +23,7 @@ class MessageParser():
         print(payload['sender'] + ': ' + payload["content"])
 
     def parse_error(self, payload):
-        print(payload)
+        print('Error: ' + payload['content'])
 
     def parse_info(self, payload):
         print(payload['content'])

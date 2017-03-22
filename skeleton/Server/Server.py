@@ -51,7 +51,7 @@ class State:
             ][0]
 
     def isUserLoggedIn(self, connection):
-        return not not self.getCurrentUsername
+        return not not self.getCurrentUsername(connection)
 
     def addMsg(self, payload):
         self.history.append(payload)

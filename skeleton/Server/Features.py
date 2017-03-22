@@ -103,10 +103,10 @@ class Features():
         return ResponseGenerator(data).jsonPayload()
 
     def noSuchMethod(self):
-
         data = {
             'sender': "server",
-            'response': "Error",
-            'content': "There is no such command"
+            'response': "error",
+            'content': "There is no such command, " +
+            "or you do not have sufficient privileges"
         }
-        return ResponseGenerator(data)
+        return ResponseGenerator(data).jsonPayload()

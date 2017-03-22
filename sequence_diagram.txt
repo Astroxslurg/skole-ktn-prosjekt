@@ -3,9 +3,9 @@ title Chat service - KTN1 Deliverable
 
 # Login
 Client->Server: login <username>
-note right of Client 
+note right of Client
     {
-        'request': 'login', 
+        'request': 'login',
         'content': 'pewdiepie'
     }
 end note
@@ -14,8 +14,8 @@ Server->Client: RESPONSE
 note left of Server
     {
         'timestamp': <timestamp>,
-        'sender': <username>, 
-        'response': "info", 
+        'sender': <username>,
+        'response': "info",
         'content': "Success",
         "authToken": String,
     }
@@ -25,8 +25,8 @@ Server->Client: History
 note left of Server
     {
         'timestamp': <timestamp>,
-        'sender': server, 
-        'response': "history", 
+        'sender': server,
+        'response': "history",
         'content': "{messages: [Message]}",
     }
 end note
@@ -34,9 +34,9 @@ end note
 
 # Send message
 Client->Server: msg <message>
-note right of Client 
+note right of Client
     {
-        'request': 'msg', 
+        'request': 'msg',
         'content': "I'm not a nazi, Wallstreet journal!",
         'authToken': String,
     }
@@ -47,17 +47,17 @@ Server->Client: RESPONSE
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "info", 
+        'sender': "server",
+        'response': "info",
         'content': "Message received",
     }
 end note
 
 # get names
 Client->Server: names
-note right of Client 
+note right of Client
     {
-        'request': 'names', 
+        'request': 'names',
         'content': {},
         'authToken': String,
     }
@@ -67,17 +67,17 @@ Server->Client: Response with names
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "info", 
+        'sender': "server",
+        'response': "info",
         'content': {names: [name]},
     }
 end note
 
 # help
 Client->Server: help
-note right of Client 
+note right of Client
     {
-        'request': 'help', 
+        'request': 'help',
         'content': {},
         'authToken': String,
     }
@@ -87,8 +87,8 @@ Server->Client: Response with helpItems
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "info", 
+        'sender': "server",
+        'response': "info",
         'content': {helpItems: [helpItem]},
     }
 end note
@@ -98,9 +98,9 @@ end note
 
 # Send message
 Client2->Server: msg <message>
-note left of Client2 
+note left of Client2
     {
-        'request': 'msg', 
+        'request': 'msg',
         'content': "Hello!",
         'authToken': String,
     }
@@ -111,8 +111,8 @@ Server->Client2: RESPONSE
 note right of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "info", 
+        'sender': "server",
+        'response': "info",
         'content': "Message received",
     }
 end note
@@ -121,8 +121,8 @@ Server->Client2: RESPONSE
 note right of Server
     {
         'timestamp': <timestampt>,
-        'sender': "Client2", 
-        'response': "Message", 
+        'sender': "Client2",
+        'response': "Message",
         'content': "Hello!",
     }
 end note
@@ -131,17 +131,17 @@ Server->Client: Publish message from Client2
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "Client2", 
-        'response': "Message", 
+        'sender': "Client2",
+        'response': "Message",
         'content': "Hello!",
     }
 end note
 # logout
 
 Client->Server: logout
-note right of Client 
+note right of Client
     {
-        'request': 'logout', 
+        'request': 'logout',
         'content': {},
         'authToken': String,
     }
@@ -151,18 +151,18 @@ Server->Client: Response
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "info", 
+        'sender': "server",
+        'response': "info",
         'content': "Logout successful",
     }
 end note
 
-# Messaging before login or after logout gives error 
+# Messaging before login or after logout gives error
 
 Client->Server: msg <message>
-note right of Client 
+note right of Client
     {
-        'request': 'msg', 
+        'request': 'msg',
         'content': "Remember me?",
         'authToken': String,
     }
@@ -173,11 +173,8 @@ Server->Client: RESPONSE
 note left of Server
     {
         'timestamp': <timestampt>,
-        'sender': "server", 
-        'response': "Error", 
+        'sender': "server",
+        'response': "error", 
         'content': "Invalid auth token",
     }
 end note
-
-
-
