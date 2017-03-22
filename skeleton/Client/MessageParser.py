@@ -6,7 +6,7 @@ class MessageParser():
             'error': self.parse_error,
             'info': self.parse_info,
             'message': self.parse_message,
-            # More key:values pairs are needed
+            'history': self.parse_history,
         }
 
     def parse(self, payload):
@@ -27,5 +27,10 @@ class MessageParser():
 
     def parse_info(self, payload):
         print(payload['content'])
+
+    def parse_history(self, payload):
+        print("Login successful!")
+        for message in payload['content']:
+            self.parse_message(message)
 
     # Include more methods for handling the different responses...

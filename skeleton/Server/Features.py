@@ -51,7 +51,7 @@ class Features():
 
         self.state.addUsername(username, self.currentConnection)
 
-        return loginSuccessful()
+        return self.history(request)
 
     def msg(self, request):
         isRequestValid(request, 'msg')
@@ -95,7 +95,7 @@ class Features():
     def history(self, request):
         history = self.state.getHistory()
         data = {
-            'response': 'info',
+            'response': 'history',
             'sender': 'server',
             'content': history
         }

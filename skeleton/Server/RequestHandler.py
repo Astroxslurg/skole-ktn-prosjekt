@@ -10,7 +10,7 @@ class RequestHandler():
             'login': features.login,
             'msg': features.msg,
             'help': features.help,
-            'names': features.names
+            'names': features.names,
         }
         self.open_requests = {
             'help': features.help,
