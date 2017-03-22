@@ -59,6 +59,17 @@ class Features():
     def __init__(self, state, currentConnection):
         self.state = state
         self.currentConnection = currentConnection
+        self.authorized_requests = {
+            'logout': self.logout,
+            'login': self.login,
+            'msg': self.msg,
+            'help': self.help,
+            'names': self.names,
+        }
+        self.open_requests = {
+            'help': self.help,
+            'login': self.login,
+        }
 
     def login(self, request):
         isRequestValid(request, "login")
@@ -86,14 +97,24 @@ class Features():
         return 'BROADCAST'
 
     def help(self, request):
+        commands = """
+        Commands available at all times:
+            'help': Shows this help-menu
+            'login': Logs you into the chat client
+
+        Commands only available after logging in:
+            'logout': Logs you out again
+            'names': Lists all current usernames
+            'msg': Sends a message to all clients
+        """
         data = {
             'response': "info",
-            'content': "Help is here!",
+            'content': commands,
             'sender': "server"
         }
-        json = ResponseGenerator(data).jsonPayload()
+        jsonResponse = ResponseGenerator(data).jsonPayload()
 
-        return json
+        return jsonResponse
 
     def names(self, request):
         data = {
@@ -101,8 +122,8 @@ class Features():
             'content': self.state.getUsernames(),
             'sender': 'server'
         }
-        json = ResponseGenerator(data).jsonPayload()
-        return json
+        jsonResponse = ResponseGenerator(data).jsonPayload()
+        return jsonResponse
 
     def logout(self, request):
         self.state.removeUsernameFromConnection(self.currentConnection)
