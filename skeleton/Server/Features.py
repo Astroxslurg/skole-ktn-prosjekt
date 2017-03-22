@@ -84,7 +84,7 @@ class Features():
         return json
 
     def logout(self, request):
-        self.state.removeConnection(self.currentConnection)
+        self.state.removeUsernameFromConnection(self.currentConnection)
         data = {
             'response': 'info',
             'content': 'Logout successful',
