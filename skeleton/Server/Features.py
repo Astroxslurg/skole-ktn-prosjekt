@@ -14,18 +14,36 @@ def isRequestValid(request, expectedType):
 Login helpers
 """
 
-def loginError():
+def takenUsernameError():
     data = {
         'response': "error",
         'content': "That name is taken",
         'sender': "server"
     }
+    return ResponseGenerator(data).jsonPayload()
 
+
+def invalidUsernameError():
+    data = {
+        'response': "error",
+        'content': "username contains unsupported characters, " +
+        "please use only letters A-Z, a-z and numbers 0-9",
+        'sender': "server"
+    }
     return ResponseGenerator(data).jsonPayload()
 
 
 def isUsernameTaken(username, state):
     return username in state.getUsernames()
+
+
+def isUsernameInvalid(username):
+    for c in username:
+        if not ((47 < ord(c) < 58)
+           or (64 < ord(c) < 91)
+           or (96 < ord(c) < 123)):
+            return True
+    return False
 
 
 def loginSuccessful():
@@ -46,8 +64,11 @@ class Features():
         isRequestValid(request, "login")
         username = request["content"]
 
+        if isUsernameInvalid(username):
+            return invalidUsernameError()
+
         if isUsernameTaken(username, self.state):
-            return loginError()
+            return takenUsernameError()
 
         self.state.addUsername(username, self.currentConnection)
 
