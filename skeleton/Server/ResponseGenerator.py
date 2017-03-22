@@ -1,5 +1,5 @@
 import json
-
+import time
 
 class ResponseGenerator():
 
@@ -11,7 +11,7 @@ class ResponseGenerator():
         self.timestamp = self.getTimestamp
 
     def getTimestamp(self):
-        return "Partytime!"
+        return time.time()
 
     def payload(self):
         return {
